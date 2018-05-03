@@ -89,17 +89,18 @@ class DirectClient extends AbstractServiceClient
     /**
      * Sends a request
      *
-     * @param string              $method  HTTP method
+     * @param string $method  HTTP method
      * @param string $uri     URI object or string.
-     * @param array               $options Request options to apply.
+     * @param array  $options Request options to apply.
      *
      * @return Response
      *
      * @throws BadRequestException
-     * @throws ForbiddenException
      * @throws DirectException
+     * @throws ForbiddenException
      * @throws TooManyRequestsException
      * @throws UnauthorizedException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     protected function sendRequest($method, $uri, array $options = [])
     {
@@ -144,6 +145,7 @@ class DirectClient extends AbstractServiceClient
     }
 
     /**
+     * @param array $defaultOptions
      * @return ClientInterface
      */
     protected function getClient($defaultOptions = []) {
@@ -207,8 +209,13 @@ class DirectClient extends AbstractServiceClient
      * Send GET request to API resource
      *
      * @param string $resource
-     * @param array $params
+     * @param array  $params
      * @return array
+     * @throws BadRequestException
+     * @throws DirectException
+     * @throws ForbiddenException
+     * @throws TooManyRequestsException
+     * @throws UnauthorizedException
      */
     protected function sendGetRequest($resource, $params = [])
     {
@@ -238,8 +245,13 @@ class DirectClient extends AbstractServiceClient
      * Send custom GET request to API resource
      *
      * @param string $url
-     * @param array $data
+     * @param array  $data
      * @return array
+     * @throws BadRequestException
+     * @throws DirectException
+     * @throws ForbiddenException
+     * @throws TooManyRequestsException
+     * @throws UnauthorizedException
      */
     protected function getNextPartOfList($url, $data = [])
     {
@@ -301,8 +313,13 @@ class DirectClient extends AbstractServiceClient
      * Send PUT request to API resource
      *
      * @param string $resource
-     * @param array $params
+     * @param array  $params
      * @return array
+     * @throws BadRequestException
+     * @throws DirectException
+     * @throws ForbiddenException
+     * @throws TooManyRequestsException
+     * @throws UnauthorizedException
      */
     protected function sendPutRequest($resource, $params)
     {
@@ -326,6 +343,11 @@ class DirectClient extends AbstractServiceClient
      *
      * @param string $resource
      * @return array
+     * @throws BadRequestException
+     * @throws DirectException
+     * @throws ForbiddenException
+     * @throws TooManyRequestsException
+     * @throws UnauthorizedException
      */
     protected function sendDeleteRequest($resource)
     {

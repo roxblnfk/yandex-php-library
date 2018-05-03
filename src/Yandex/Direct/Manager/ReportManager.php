@@ -2,11 +2,9 @@
 
 namespace Yandex\Direct\Manager;
 
-use Yandex\Direct\Model\AdObject;
-use Yandex\Direct\Model\BaseObject;
-use Yandex\Direct\Request\GetRequest;
-use Yandex\Direct\Structure\AdsSelectionCriteria;
-use Yandex\Direct\Structure\ParamsGetRequest;
+use Yandex\Direct\Model\ReportObject;
+use Yandex\Direct\Request\ReportRequest;
+use Yandex\Direct\Structure\ParamsReportDefinition;
 
 
 /**
@@ -20,12 +18,10 @@ use Yandex\Direct\Structure\ParamsGetRequest;
  */
 class ReportManager extends BaseManager {
 
-    protected static $methods = ['add', 'update', 'delete', 'suspend', 'resume', 'archive', 'unarchive', 'get', 'moderate'];
-    protected $resource = 'ads';
-    protected $resultsContainer = [
-        'get' => 'Ads',
-    ];
-    protected $objectsClass = BaseObject::class;
+    protected static $methods = [];
+    protected $resource = 'reports';
+    protected $resultsContainer = [];
+    protected $objectsClass = ReportObject::class;
 
     public $processingMode = 'auto';
     public $returnMoneyInMicros = false;
@@ -34,36 +30,87 @@ class ReportManager extends BaseManager {
     public $skipReportSummary = true;
 
     static $allGetFields = [
-        'AdCategories',
-        'AdCategories',
-        'AgeLabel',
-        'AdGroupId',
-        'CampaignId',
-        'Id',
-        'State',
-        'Status',
-        'StatusClarification',
-        'Type',
-        'Subtype',
-        'Subtype',
+        // 'AdFormat'               => [],
+        // 'AdGroupId'              => [],
+        // 'AdGroupName'            => [],
+        // 'AdId'                   => [],
+        // 'AdNetworkType'          => [],
+        // 'Age'                    => [],
+        // 'AudienceTargetId'       => [],
+        'AvgClickPosition'       => [],
+        'AvgCpc'                 => [],
+        // 'AvgImpressionPosition'  => [],
+        'AvgPageviews'           => [],
+        'BounceRate'             => [],
+        'Bounces'                => [],
+        'CampaignId'             => [],
+        'CampaignName'           => [],
+        'CampaignType'           => [],
+        'CarrierType'            => [],
+        'Clicks'                 => [],
+        'ClickType'              => [],
+        'ConversionRate'         => [],
+        'Conversions'            => [],
+        'Cost'                   => [],
+        'CostPerConversion'      => [],
+        // 'Criteria'               => [],
+        // 'CriteriaId'             => [],
+        'CriteriaType'           => [],
+        // 'Criterion'              => [],
+        // 'CriterionId'            => [],
+        // 'CriterionType'          => [],
+        // 'Ctr'                    => [],
+        'Date'                   => [],
+        'Device'                 => [],
+        // 'DynamicTextAdTargetId'  => [],
+        'ExternalNetworkName'    => [],
+        'Gender'                 => [],
+        'GoalsRoi'               => [],
+        // 'Impressions'            => [],
+        // 'ImpressionShare'        => [],
+        // 'Keyword'                => [],
+        'LocationOfPresenceId'   => [],
+        'LocationOfPresenceName' => [],
+        // 'MatchedKeyword'         => [],
+        'MatchType'              => [],
+        'MobilePlatform'         => [],
+        'Month'                  => [],
+        // 'Placement'              => [],
+        // 'Quarter'                => [],
+        // 'Query'                  => [],
+        'Revenue'                => [],
+        // 'RlAdjustmentId'         => [],
+        'Sessions'               => [],
+        'Slot'                   => [],
+        // 'SmartBannerFilterId'    => [],
+        'TargetingLocationId'    => [],
+        'TargetingLocationName'  => [],
+        // 'Week'                   => [],
+        // 'Year'                   => [],
     ];
 
     /**
-     * @inheritdoc
+     * @param $method
+     * @return ReportRequest
      */
-    protected function createGetRequest($params) {
-        $params['params'] = new ParamsGetRequest();
-        $params['params']->setSelectionCriteria(new AdsSelectionCriteria());
-        return new GetRequest($params);
+    public function createRequest($method = 'report') {
+
+        $params = array_merge($this->extendsProps());
+        $params['params'] = new ParamsReportDefinition();
+        $request = new ReportRequest($params);
+
+        return $request;
     }
+
     /**
      * @inheritdoc
      */
     protected function getClient($defaultOptions = []) {
         if ($this->processingMode)
             $defaultOptions['headers']['processingMode'] = (string)$this->processingMode;
-        $defaultOptions['headers']['skipReportHeader'] = $this->skipReportHeader ? 'true' : 'false';
-        $defaultOptions['headers']['skipColumnHeader'] = $this->skipColumnHeader ? 'true' : 'false';
+        $defaultOptions['headers']['returnMoneyInMicros'] = $this->returnMoneyInMicros ? 'true' : 'false';
+        $defaultOptions['headers']['skipReportHeader']  = $this->skipReportHeader  ? 'true' : 'false';
+        $defaultOptions['headers']['skipColumnHeader']  = $this->skipColumnHeader  ? 'true' : 'false';
         $defaultOptions['headers']['skipReportSummary'] = $this->skipReportSummary ? 'true' : 'false';
 
         return parent::getClient($defaultOptions);

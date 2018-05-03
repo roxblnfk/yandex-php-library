@@ -2,9 +2,6 @@
 
 namespace Yandex\Direct\Structure;
 
-use Yandex\Common\ObjectModel;
-use Yandex\Direct\Model\CampaignObject;
-
 /**
  * Class IdsCriteria
  *

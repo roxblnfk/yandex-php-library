@@ -1,17 +1,17 @@
 <?php
 
 namespace Yandex\Direct\Structure;
-use Yandex\Common\Model;
-
 
 /**
  * Class Params
  *
  * @category Yandex
- * @package Direct
+ * @package  Direct
  *
  * @author   roxblnfk
  * @created  25.04.18 10:00
+ *
+ * @method getSelectionCriteria
  */
 class Params extends BaseStructure
 {

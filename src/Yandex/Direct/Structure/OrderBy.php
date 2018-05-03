@@ -3,7 +3,7 @@
 namespace Yandex\Direct\Structure;
 
 /**
- * Class Page
+ * Class OrderBy
  *
  * @category Yandex
  * @package  Direct
@@ -11,7 +11,7 @@ namespace Yandex\Direct\Structure;
  * @author   roxblnfk
  * @created  25.04.18 10:00
  */
-class Page extends BaseStructure {
+class OrderBy extends BaseStructure {
     protected $fields = [
         'Field'     => ['required' => true, 'default' => 'Id'],
         // DESCENDING | ASCENDING

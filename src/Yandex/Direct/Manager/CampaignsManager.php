@@ -2,12 +2,9 @@
 
 namespace Yandex\Direct\Manager;
 
-use Yandex\Common\Exception\InvalidArgumentException;
 use Yandex\Direct\Model\CampaignObject;
 use Yandex\Direct\Request\GetRequest;
-use Yandex\Direct\Structure\BaseStructure;
 use Yandex\Direct\Structure\CampaignsSelectionCriteria;
-use Yandex\Direct\Structure\Params;
 use Yandex\Direct\Structure\ParamsGetRequest;
 
 
@@ -15,7 +12,7 @@ use Yandex\Direct\Structure\ParamsGetRequest;
  * Class CampaignsManager
  *
  * @category Yandex
- * @package Direct
+ * @package  Direct
  *
  * @author   roxblnfk
  * @created  25.04.18 10:00

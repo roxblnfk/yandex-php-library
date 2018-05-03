@@ -2,8 +2,6 @@
 
 namespace Yandex\Direct\Structure;
 
-use Yandex\Common\Model;
-
 /**
  * Class ParamsGetRequest
  *

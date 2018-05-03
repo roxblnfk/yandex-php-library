@@ -3,10 +3,10 @@
 namespace Yandex\Direct\Structure;
 
 /**
- * Class BaseField
+ * Class Field
  *
  * @category Yandex
- * @package Direct
+ * @package  Direct
  *
  * @author   roxblnfk
  * @created  25.04.18 10:00

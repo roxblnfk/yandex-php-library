@@ -1,7 +1,5 @@
 <?php
-/**
- * @namespace
- */
+
 namespace Yandex\Direct\Request;
 
 use Yandex\Common\Exception\ForbiddenException;
@@ -14,23 +12,25 @@ use Yandex\Direct\Exception\DirectException;
 use Yandex\Direct\Manager\BaseManager;
 use Yandex\Direct\Model\ObjectsColletcion;
 use Yandex\Direct\Structure\Params;
-use Yandex\Direct\Structure\ParamsGetRequest;
 
 /**
- * Class DirectRequest
+ * Class GetRequest
  *
  * @category Yandex
- * @package Direct
+ * @package  Direct
  *
  * @author   roxblnfk
  * @created  25.04.18 10:00
  */
-class GetRequest extends BaseRequest {
+class GetRequest extends BaseManager {
     /** @var string */
     protected $method = '';
-    /** @var ParamsGetRequest */
+    /** @var Params */
     protected $params;
 
+    /**
+     * @return Params
+     */
     public function Params() {
         return $this->params;
     }
@@ -46,31 +46,17 @@ class GetRequest extends BaseRequest {
      * @throws InvalidArgumentException
      */
     public function execRequest() {
-        $response = $this->sendPostRequest($this->resource, [
+        $response = (array)$this->sendPostRequest($this->resource, [
             'method' => $this->method,
             'params' => $this->params->toArray(),
         ]);
 
-        if (key_exists('error', $response) && is_array($response['error'])) {
-            $title = isset($response['error']['error_string'])
-                ? $response['error']['error_string']
-                : 'Response error';
-            $details = isset($response['error']['error_detail'])
-                ? $response['error']['error_detail']
-                : '(no details)';
-            $requestId = isset($response['error']['request_id'])
-                ? "[Request ID: {$response['error']['request_id']}]"
-                : '';
-            $code = isset($response['error']['error_code'])
-                ? (int)$response['error']['error_code']
-                : 0;
-            throw new BadResponseException("{$title}: {$details} {$requestId}", $code);
-        }
+        $this->responseErrors($response);
+
         if (!key_exists('result', $response) || !is_array($response['result']))
             throw new BadResponseException('Can\'t parse results');
 
         if (!key_exists($this->resultsContainer[$this->method], $response['result']) || !is_array($response['result'][$this->resultsContainer[$this->method]])) {
-            d($response);
             throw new BadResponseException('Can\'t parse results container');
         }
 

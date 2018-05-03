@@ -1,13 +1,12 @@
 <?php
 
 namespace Yandex\Direct\Manager;
-use GuzzleHttp\ClientInterface;
+
 use Yandex\Common\Exception\InvalidArgumentException;
 use Yandex\Direct\DirectClient;
+use Yandex\Direct\Exception\BadResponseException;
 use Yandex\Direct\Model\BaseObject;
-use Yandex\Direct\Model\CampaignObject;
 use Yandex\Direct\Request\GetRequest;
-use Yandex\Direct\Structure\BaseStructure;
 use Yandex\Direct\Structure\ParamsGetRequest;
 use Yandex\Direct\Structure\ParamsIdsRequest;
 
@@ -16,7 +15,7 @@ use Yandex\Direct\Structure\ParamsIdsRequest;
  * Class BaseManager
  *
  * @category Yandex
- * @package Direct
+ * @package  Direct
  *
  * @author   roxblnfk
  * @created  25.04.18 10:00
@@ -106,6 +105,31 @@ abstract class BaseManager extends DirectClient {
         return $this;
     }
 
+    /**
+     * @param $response
+     * @throws BadResponseException
+     */
+    protected function responseErrors($response) {
+        if (key_exists('error', $response) && is_array($response['error'])) {
+            $title = isset($response['error']['error_string'])
+                ? $response['error']['error_string']
+                : 'Response error';
+            $details = isset($response['error']['error_detail'])
+                ? $response['error']['error_detail']
+                : '(no details)';
+            $requestId = isset($response['error']['request_id'])
+                ? "[Request ID: {$response['error']['request_id']}]"
+                : '';
+            $code = isset($response['error']['error_code'])
+                ? (int)$response['error']['error_code']
+                : 0;
+            throw new BadResponseException("{$title}: {$details} {$requestId}", $code);
+        }
+    }
+
+    /**
+     * @return array
+     */
     protected function extendsProps() {
         return array_merge(parent::extendsProps(), [
             'resource'         => $this->resource,

@@ -2,7 +2,6 @@
 
 namespace Yandex\Direct\Structure;
 
-
 /**
  * Class FilterItem
  *

@@ -3,9 +3,6 @@
 namespace Yandex\Direct\Model;
 
 use Yandex\Common\Exception\InvalidArgumentException;
-use Yandex\Common\Exception\RealizationException;
-use Yandex\Direct\Structure\BaseStructure;
-use Yandex\Direct\Structure\Params;
 
 /**
  * Class ObjectsColletcion
